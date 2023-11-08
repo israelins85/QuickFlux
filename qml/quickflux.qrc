@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>QuickFluxActionCreator.qml</file>
+        <file>QuickFluxDispatcher.qml</file>
+        <file>QuickFluxStore.qml</file>
+    </qresource>
+</RCC>
