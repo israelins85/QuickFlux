@@ -1,7 +1,7 @@
 QT += qml quick
 
 INCLUDEPATH += \
-    $PWD/cpp/
+    $$PWD/cpp/
 
 QML_IMPORT_PATH += \
     $$PWD/qml/
