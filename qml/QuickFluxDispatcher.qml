@@ -17,8 +17,10 @@ QtObject {
         for (var i = 0; i < stores.length; ++i) {
             const store = stores[i]
 
+            console.log("- checking", store)
+
             if (store.handleAction(action, payload)) {
-                console.log(" - handled by", store)
+                console.log(" - handled")
                 handled = true
             }
         }
