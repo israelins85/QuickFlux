@@ -6,7 +6,14 @@ QtObject {
     property variant stores: ([])
 
     function subscribe(store) {
+        unsubscribe(store)
         stores.push(store)
+    }
+
+    function unsubscribe(store) {
+        stores = stores.filter(function (e) {
+            return (e !== store)
+        })
     }
 
     function dispatch(action, payload) {

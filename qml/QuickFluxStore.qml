@@ -1,3 +1,4 @@
+import QtQml
 import QtQuick
 
 QtObject {
@@ -46,5 +47,9 @@ QtObject {
 
     Component.onCompleted: {
         QuickFluxDispatcher.subscribe(this)
+    }
+
+    Component.onDestruction: {
+        QuickFluxDispatcher.unsubscribe(this)
     }
 }
