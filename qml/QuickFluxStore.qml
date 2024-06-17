@@ -60,9 +60,19 @@ QtObject {
     }
 
     function handleAction(action, payload) {
-        const match = action.match(actionsRegex)
+        var match = null
 
-        // @disable-check M126
+        if (Array.isArray(actionsRegex)) {
+            for (var ri = 0; ri < actionsRegex.length; ++ri) {
+                const r = actionsRegex[ri]
+                match = action.match(r)
+                if (match != null)
+                    break
+            }
+        } else {
+            match = action.match(actionsRegex)
+        }
+
         if (match == null) {
             return false
         }
@@ -79,7 +89,7 @@ QtObject {
         if (functionNameParts.length === 0)
             functionNameParts.push("handle")
 
-        const functionName = functionNameParts.join("_")
+        const functionName = functionNameParts.join("_").replace("/", "_")
         const func = this[functionName]
 
         if (typeof func !== "function") {
