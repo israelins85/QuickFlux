@@ -89,7 +89,8 @@ QtObject {
         if (functionNameParts.length === 0)
             functionNameParts.push("handle")
 
-        const functionName = functionNameParts.join("_").replace("/", "_")
+        let functionName = functionNameParts.join("_")
+        functionName = functionName.replace(/\//g, "_")
         const func = this[functionName]
 
         if (typeof func !== "function") {
