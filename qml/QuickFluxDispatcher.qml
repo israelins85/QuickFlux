@@ -34,6 +34,20 @@ QtObject {
 
         const next = pending[0]
         pending = pending.slice(1)
+
+        if (next.scheduled) {
+            const now = new Date()
+            const delta = next.scheduled.getTime() - now.getTime()
+            if (delta > 0) {
+                if (pending.length === 0) {
+                    timer.interval = delta + 1
+                }
+
+                pending.push(next)
+                return
+            }
+        }
+
         _dispatch(next.action, next.payload)
     }
 
@@ -49,11 +63,31 @@ QtObject {
         }
     }
 
-    function dispatch(action, payload) {
-        pending.push({
-                         "action": action,
-                         "payload": payload
-                     })
-        timer.start()
+    function addMilliseconds(date, milliseconds) {
+        date.setMilliseconds(date.getMilliseconds() + milliseconds)
+        return date
+    }
+
+    function dispatch(action, payload, timeout = 0) {
+        if (timeout >= 0) {
+            let scheduled = null
+            if (timeout > 0)
+                scheduled = addMilliseconds(new Date(), timeout)
+
+            pending.push({
+                             "action": action,
+                             "payload": payload,
+                             "scheduled": scheduled
+                         })
+
+            if (!timer.running) {
+                timer.interval = timeout + 1
+                timer.start()
+            } else {
+                timer.interval = Math.min(timer.interval, timeout) + 1
+            }
+        } else {
+            _dispatch(action, payload)
+        }
     }
 }
